@@ -5,6 +5,12 @@
   margin: 0;
 }
 
+.black {
+  background-color: #666;
+  border: 2px solid #353535;
+}
+
 table {
   border-spacing: 0;
+  border: 2px solid #aaa;
 }
