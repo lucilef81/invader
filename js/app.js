@@ -4,20 +4,26 @@ var app = {
   CELL_SIZE: 2,
   grid: document.createElement('table'),
   configuration: document.querySelector('.configuration'),
+  styles: ['empty', 'plain', 'light', 'highlight'],
+  currentStyle: 'empty',
 
   init: function() {
     console.log('app init');
     document.querySelector('#invader').appendChild(app.grid);
 
-    app.createGrid();
-    app.blackCells();
+    app.createGrid(app.currentStyle);
     app.createHeader();
+    app.createColorPanel();
+
     app.configuration.addEventListener('submit', function(event) {
       event.preventDefault();
       app.resetGrid();
       app.handleFormSubmit();
-      app.createGrid();
+      app.createGrid(app.currentStyle);
     });
+
+    app.changeColor();
+    app.setCurrentColor();
   },
 
   handleFormSubmit: function() {
@@ -34,13 +40,13 @@ var app = {
     }
   },
 
-  createGrid: function() {
+  createGrid: function(color) {
     for (line = 0; line < app.MAX_ROW; line++) {
       var row = document.createElement('tr');
       app.grid.appendChild(row);
       for (col = 0; col < app.MAX_COLUMNS; col++) {
         var column = document.createElement('td');
-        column.className += 'cell';
+        column.classList.add('cell', color);
         column.style.width = `${app.CELL_SIZE}rem`;
         column.style.height = `${app.CELL_SIZE}rem`;
         row.appendChild(column);
@@ -48,15 +54,12 @@ var app = {
     }
   },
 
-  blackCells: function() {
+  changeColor: function() {
     var cells = document.querySelectorAll('.cell');
     for (cell = 0; cell < cells.length; cell++) {
       cells[cell].addEventListener('click', function(event) {
-        if (event.target.classList.contains('black')) {
-          event.target.classList.remove('black');
-        } else {
-          event.target.classList.add('black');
-        }
+        event.target.classList.remove(event.target.classList[1]);
+        event.target.classList.add(app.currentStyle);
       });
     }
   },
@@ -82,6 +85,27 @@ var app = {
     var rows = document.querySelectorAll('tr');
     for (var row = 0; row < rows.length; row++) {
       app.grid.removeChild(rows[row]);
+    }
+  },
+
+  createColorPanel: function() {
+    var selector = document.createElement('div');
+    selector.className = 'selector';
+    document.body.appendChild(selector);
+
+    for (let i = 0; i < app.styles.length; i++) {
+      var button = document.createElement('button');
+      button.classList.add('button', app.styles[i]);
+      selector.appendChild(button);
+    }
+  },
+
+  setCurrentColor: function() {
+    var buttons = document.querySelectorAll('button');
+    for (index = 0; index < buttons.length; index++) {
+      buttons[index].addEventListener('click', function(event) {
+        app.currentStyle = event.target.classList[1];
+      });
     }
   },
 };

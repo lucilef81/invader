@@ -31,3 +31,34 @@ table {
   border-radius: 5%;
   color: white;
 }
+
+.button {
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+}
+
+.selector {
+  margin-left: auto;
+  width: 20%;
+  background-color: #4846a2;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.empty {
+  background-color: #d2dae2;
+}
+
+.plain {
+  background-color: #485460;
+}
+
+.light {
+  background-color: #fbc048;
+}
+
+.highlight {
+  background-color: #79ea83;
+}
