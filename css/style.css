@@ -1,11 +1,20 @@
 body {
   background-color: #6459cd;
+  margin: 0;
 }
 
 table {
   border-spacing: 0;
   border: 2px solid #aaa;
   margin: 0 auto;
+}
+
+.configuration {
+  background-color: #3149ae;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
 }
 
 .cell {
@@ -21,8 +30,11 @@ table {
 
 .grid,
 .pixel {
-  margin: 0 auto;
   padding: 1rem;
+}
+
+.grid {
+  border-radius-left: 5%;
 }
 
 .confirm {

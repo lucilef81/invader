@@ -15,38 +15,38 @@ var app = {
     app.createHeader();
     app.createColorPanel();
 
-    app.configuration.addEventListener('submit', function(event) {
-      event.preventDefault();
-      app.resetGrid();
-      app.handleFormSubmit();
-      app.createGrid(app.currentStyle);
-    });
-
-    app.changeColor();
+    app.handleFormSubmit();
     app.setCurrentColor();
+    app.changeColor();
   },
 
   handleFormSubmit: function() {
-    var newCellSize = document.querySelector('.pixel').value;
-    var newGridSize = document.querySelector('.grid').value;
+    app.configuration.addEventListener('submit', function(event) {
+      event.preventDefault();
+      app.resetGrid();
+      var newCellSize = document.querySelector('.pixel').value;
+      var newGridSize = document.querySelector('.grid').value;
 
-    if (newGridSize) {
-      app.MAX_ROW = newGridSize;
-      app.MAX_COLUMNS = newGridSize;
-    }
+      if (newGridSize) {
+        app.MAX_ROW = newGridSize;
+        app.MAX_COLUMNS = newGridSize;
+      }
 
-    if (newCellSize) {
-      app.CELL_SIZE = newCellSize;
-    }
+      if (newCellSize) {
+        app.CELL_SIZE = newCellSize;
+      }
+      app.createGrid();
+      app.changeColor();
+    });
   },
 
-  createGrid: function(color) {
+  createGrid: function() {
     for (line = 0; line < app.MAX_ROW; line++) {
       var row = document.createElement('tr');
       app.grid.appendChild(row);
       for (col = 0; col < app.MAX_COLUMNS; col++) {
         var column = document.createElement('td');
-        column.classList.add('cell', color);
+        column.classList.add('cell', app.currentStyle);
         column.style.width = `${app.CELL_SIZE}rem`;
         column.style.height = `${app.CELL_SIZE}rem`;
         row.appendChild(column);
@@ -86,6 +86,7 @@ var app = {
     for (var row = 0; row < rows.length; row++) {
       app.grid.removeChild(rows[row]);
     }
+    app.currentStyle = 'empty';
   },
 
   createColorPanel: function() {
@@ -101,13 +102,16 @@ var app = {
   },
 
   setCurrentColor: function() {
-    var buttons = document.querySelectorAll('button');
+    var buttons = document.querySelectorAll('.button');
     for (index = 0; index < buttons.length; index++) {
       buttons[index].addEventListener('click', function(event) {
         app.currentStyle = event.target.classList[1];
+        console.log('change color');
       });
     }
   },
 };
 
-document.addEventListener('DOMContentLoaded', app.init);
+document.addEventListener('DOMContentLoaded', () => {
+  app.init();
+});
